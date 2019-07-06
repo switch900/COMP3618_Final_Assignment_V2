@@ -50,7 +50,7 @@
                 </Button.ToolTip>
             </Button>
             <Button x:Name="BlankButton2" Content="" DockPanel.Dock ="Left" Height="25" Width="0" Background="White" Foreground="White"/>
-
+           
         </DockPanel>
 
         <DockPanel x:Name="Toolbar" Height="40" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" Margin="0,40,0,0">
@@ -105,6 +105,9 @@
                 </Button.ToolTip>
             </Button>
             <Button x:Name="BlankButton" Content="" DockPanel.Dock ="Left" Height="25" Width="0" Background="White" Foreground="White"/>
+            <Label Name="PageCount" Content="       Page : " DockPanel.Dock ="Left" Height="50" VerticalAlignment="Center" Background="Black" Foreground="White" VerticalContentAlignment="Center" Width="75"/>
+            <Label Name="PageNumber" Content="0"  DockPanel.Dock ="Right" Height="50" VerticalAlignment="Center" Background="Black" Foreground="White" VerticalContentAlignment="Center" Width="100"/>
+
         </DockPanel>
 
         <ListView Name="titlebasicsListView" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" HorizontalAlignment="Stretch" SelectionMode="Single" HorizontalContentAlignment="Stretch" Margin="0,80,0,0" 

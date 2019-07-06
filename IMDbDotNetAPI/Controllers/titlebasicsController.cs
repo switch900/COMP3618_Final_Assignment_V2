@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using IMDbDotNetAPI.Models;
-using IMDbDotNetDomain;
 using IMDbDotNetInfrastructure;
 
 namespace IMDbDotNetAPI.Controllers
@@ -17,33 +10,11 @@ namespace IMDbDotNetAPI.Controllers
     public class titlebasicsController : ApiController
     {
         private UnitOfWork unitOfWork = new UnitOfWork(new IMDbEntities1());
-        //public titlebasicsController()
-        //: this(new EFGenericRepository<titlebasic>(new IMDbEntities1()))
-        //{
-        //}
-
-        //public titlebasicsController(IRepository<titlebasic> inRepo)
-        //{
-        //    repo = inRepo;
-        //}
 
         // GET: api/titlebasics
-        public IHttpActionResult Gettitlebasics(int startindex = 12, int pagesize = 12)
-        {
-            var titlebasics = unitOfWork.Repository<titlebasic>().Reads(startindex, pagesize);
-            if (titlebasics == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(titlebasics);
-        }
-
-        //// GET: api/titlebasics/5
-        //[ResponseType(typeof(titlebasic))]
-        //public IHttpActionResult Gettitlebasic(string id)
+        //public IHttpActionResult Gettitlebasics(int startindex = 12, int pagesize = 12)
         //{
-        //    var titlebasics = unitOfWork.Repository<titlebasic>().Reads(id);
+        //    var titlebasics = unitOfWork.Repository<titlebasic>().Reads(startindex, pagesize);
         //    if (titlebasics == null)
         //    {
         //        return NotFound();
@@ -52,20 +23,31 @@ namespace IMDbDotNetAPI.Controllers
         //    return Ok(titlebasics);
         //}
 
-        // GET: api/titlebasics/5
+
+        // GET: api/titlebasics/5?startindex=12&pagesize=12
         [ResponseType(typeof(titlebasic))]
-        public IHttpActionResult Gettitlebasic(string id, int startindex=12, int pagesize=12)
+        public IHttpActionResult Gettitlebasic(string id, int startindex, int pagesize)
         {
             var titlebasics = unitOfWork.Repository<titlebasic>().Reads(id, startindex, pagesize);
             if (titlebasics == null)
             {
                 return NotFound();
             }
-
             return Ok(titlebasics);
         }
 
+        // GET: api/titlebasics
+        [ResponseType(typeof(string))]
+        public IHttpActionResult Gettitlebasic(string id)
+        {
+            var titlebasicCount = unitOfWork.Repository<titlebasic>().Reads(id);
+            if (titlebasicCount == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(titlebasicCount);
+        }
 
         // PUT: api/titlebasics/5
         [ResponseType(typeof(void))]
@@ -159,10 +141,5 @@ namespace IMDbDotNetAPI.Controllers
             }
             base.Dispose(disposing);
         }
-
-        //private bool titlebasicExists(string id)
-        //{
-        //    return db.titlebasics.Count(e => e.tconst == id) > 0;
-        //}
     }
 }

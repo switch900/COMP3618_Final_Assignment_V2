@@ -19,7 +19,7 @@ namespace WpfApplication1
         public static List<titlebasic> titleBasicList;
         private string titleBasicID = null;
         private int pageSize = 12;
-        private int pageIndex = 12;
+        private int pageIndex = 0;
         public int ienumerableCount;
         public List<titlebasic> asList;
         public List<titlebasic> pageList = new List<titlebasic>();
@@ -66,6 +66,7 @@ namespace WpfApplication1
 
         private async void Refresh_Button_Click(object sender, RoutedEventArgs e)
         {
+            Refresh();
             await Search();
         }
 
@@ -89,7 +90,15 @@ namespace WpfApplication1
 
         private async void BtnSearch_ClickAsync(object sender, RoutedEventArgs e)
         {
+            Refresh();
             await Search();
+        }
+
+        private void Refresh()
+        {
+            pageIndex = 0;
+            PageNumber.Content = 0;
+            DataContext = null;
         }
 
         private async Task Search()
@@ -99,14 +108,15 @@ namespace WpfApplication1
             HttpResponseMessage response = await Client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
-            {
+            {          
                 var titlebasics = await response.Content.ReadAsAsync<IEnumerable<titlebasic>>();
-                 ienumerableCount = titlebasics.Count();
-            //    GetCount(id);
-                TotalCount.Content = ienumerableCount;
+                GetCount(id);
                 asList = titlebasics.ToList();
                 ObserveTitleBasicList = new ObservableCollection<titlebasic>(asList);
                 DataContext = ObserveTitleBasicList;
+                PageNumber.Content = pageIndex / pageSize+1;
+               
+             
             }
             else
             {
@@ -114,22 +124,23 @@ namespace WpfApplication1
             }
         }
 
-        //private async void GetCount(string id)
-        //{
-        //    var url = "api/titlebasics/" + id;
-        //    HttpResponseMessage response = await Client.GetAsync(url);
+        private async void GetCount(string id)
+        {               
+            TotalCount.Content = "";
+            var url = "api/titlebasics/" + id;
+            HttpResponseMessage response = await Client.GetAsync(url);
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var titlebasics = await response.Content.ReadAsAsync<IEnumerable<titlebasic>>();
-        //        ienumerableCount = titlebasics.Count();
-        //        TotalCount.Content = ienumerableCount;
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Error Code" + response.StatusCode + " : Message - " + response.ReasonPhrase);
-        //    }
-        //}
+            if (response.IsSuccessStatusCode)
+            {
+                var titlebasics = await response.Content.ReadAsAsync<IEnumerable<titlebasic>>();
+                ienumerableCount = titlebasics.Count();
+                TotalCount.Content = ienumerableCount;
+            }
+            else
+            {
+                MessageBox.Show("Error Code" + response.StatusCode + " : Message - " + response.ReasonPhrase);
+            }
+        }
 
         private void ListView1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
@@ -173,11 +184,14 @@ namespace WpfApplication1
 
         private async void M_txtTest_MouseDoubleClickAsync(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            Refresh();
             await Search();
         }
 
         private async void M_txtTest_KeyDownAsync(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            Refresh();
+
             if (e.Key == System.Windows.Input.Key.Return)
             {
                 await Search();

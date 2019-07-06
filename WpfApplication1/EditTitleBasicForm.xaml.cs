@@ -27,8 +27,10 @@ namespace WpfApplication1
         //starts UI and populates it with current EmployeeID.  Default is 0 for none.  
         public void Run()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:2105/")
+            };
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/xml"));
         }
@@ -37,8 +39,10 @@ namespace WpfApplication1
         public void GetTitleBasicByID(string id)
         {
             titleBasicID = id;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:2105/")
+            };
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/xml"));
             var url = "api/titlebasics/" + titleBasicID + "?startindex=0&pagesize=1";
@@ -95,8 +99,10 @@ namespace WpfApplication1
         //creates new employee and saves it to databse from input from user.
         private async void NewTitleBasic()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:2105/")
+            };
             client.DefaultRequestHeaders.Accept.Add(
                new MediaTypeWithQualityHeaderValue("application/xml"));
 
@@ -130,8 +136,10 @@ namespace WpfApplication1
         //updates employee information in database on selected employee
         private async Task UpdateTitleBasicByIdAsync(string id)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:2105/")
+            };
             var url = "api/titlebasics/" + id;
 
             bool ifSuccessStartYear = short.TryParse(startYearTextBox.Text, out short tempStartYear);
@@ -166,8 +174,10 @@ namespace WpfApplication1
         //deletes selected employee from database
         private async void DeleteTitleBasic(string id)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhostED:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhostED:2105/")
+            };
             var url = "api/titlebasics/" + id;
             HttpResponseMessage response = await client.DeleteAsync(url);
 
@@ -184,8 +194,10 @@ namespace WpfApplication1
 
         private void BindTitlebasicsList()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:2105/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:2105/")
+            };
             client.DefaultRequestHeaders.Accept.Add(
                new MediaTypeWithQualityHeaderValue("application/xml"));
         }
