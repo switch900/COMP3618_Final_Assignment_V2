@@ -1,6 +1,8 @@
 # COMP3618FinalProject
 Final Project for COMP 3618 Winter 2019 
 
+Made Changes to Sql Query in titleBasicsController.  Got rid of method that searches by pagesize and index and replaced it with search by id.  Made changes to WPF UI to utilize new queries. 
+
 ## Must do
 ### Restore the database from a bak file
 * Right click on `Databases` -> `Restore Databases...` -> Browse your .bak file in `Device` -> `OK`
